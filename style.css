@@ -1,0 +1,115 @@
+/* MoonHong 허브
+ * 여섯 카드 사이트로 들어가는 문. 바탕과 글꼴은 MoonHong 시리즈의 밤하늘을 그대로 쓴다.
+ */
+:root {
+  color-scheme: dark;
+  --ink: #0c1024;
+  --night: #141a36;
+  --slate: #1f274a;
+  --line: #36406a;
+  --mist: #a9b0cf;
+  --paper: #f3ecdc;
+  --star: #f2c230;
+  --hong: #e0566a;
+  --leaf: #7fc99a;
+  --violet: #b59cf0;
+  --rose: #f0a0b8;
+  --ice: #8fd0e8;
+
+  --display: "Cinzel", "Gowun Batang", "Nanum Myeongjo", serif;
+  --body: "Gowun Batang", "Nanum Myeongjo", "Batang", "Apple SD Gothic Neo", serif;
+  --wrap: 1040px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+  background: var(--ink); color: var(--paper);
+  font-family: var(--body); font-size: 17px; line-height: 1.75;
+  word-break: keep-all; overflow-wrap: anywhere; -webkit-font-smoothing: antialiased;
+}
+
+/* 밤하늘: 오른쪽 위의 네 갈래 별 */
+.sky {
+  position: absolute; top: 0; left: 0; right: 0; height: 900px; z-index: -1; pointer-events: none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 2l5 43 43 5-43 5-5 43-5-43-43-5 43-5z' fill='%23f3ecdc'/%3E%3C/svg%3E") right 10% top 84px / 150px 150px no-repeat,
+    radial-gradient(circle at 86% 160px, rgba(242, 194, 48, .16) 0, transparent 340px),
+    radial-gradient(1.2px 1.2px at 12% 18%, var(--paper) 50%, transparent 51%),
+    radial-gradient(1px 1px at 27% 62%, var(--mist) 50%, transparent 51%),
+    radial-gradient(1.4px 1.4px at 44% 9%, var(--paper) 50%, transparent 51%),
+    radial-gradient(1px 1px at 58% 41%, var(--mist) 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 71% 77%, var(--paper) 50%, transparent 51%),
+    radial-gradient(1px 1px at 8% 84%, var(--mist) 50%, transparent 51%),
+    linear-gradient(180deg, var(--night), var(--ink) 60%);
+}
+
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--star); outline-offset: 3px; border-radius: 4px; }
+
+.top {
+  padding: 12px max(16px, calc((100vw - var(--wrap)) / 2));
+  border-bottom: 1px solid var(--line);
+  background: rgba(12, 16, 36, .84);
+}
+.brand { font-family: var(--display); font-weight: 700; font-size: 1.2rem; letter-spacing: .06em; text-decoration: none; }
+.brand b, .foot b { color: var(--hong); font-weight: 700; }
+
+main { width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 16px 80px; flex: 1; }
+
+.intro { padding: 72px 0 48px; }
+.eyebrow { margin: 0 0 16px; font-family: var(--display); font-size: .82rem; letter-spacing: .2em; text-transform: uppercase; color: var(--star); }
+h1 { margin: 0 0 24px; font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.24; font-weight: 700; text-wrap: balance; max-width: 11em; }
+.lead { margin: 0; max-width: 32em; color: var(--mist); }
+
+/* ── 여섯 문 ──────────────────────── */
+.doors { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.doors li { display: flex; }
+
+.door {
+  position: relative; flex: 1; display: flex; flex-direction: column; align-items: flex-start;
+  padding: 28px 24px 24px; text-decoration: none; overflow: hidden;
+  border: 1px solid var(--line); border-radius: 120px 120px 8px 8px;
+  background: linear-gradient(180deg, rgba(31, 39, 74, .9), rgba(20, 26, 54, .7));
+  transition: border-color .25s, transform .25s, box-shadow .25s;
+}
+.door::before {
+  content: ""; position: absolute; inset: 0 0 auto; height: 200px; pointer-events: none;
+  background: radial-gradient(circle at 50% 0, color-mix(in srgb, var(--accent) 26%, transparent), transparent 70%);
+  opacity: .55; transition: opacity .25s;
+}
+.door:hover, .door:focus-visible {
+  border-color: var(--accent); transform: translateY(-4px);
+  box-shadow: 0 18px 40px -22px var(--accent);
+}
+.door:hover::before, .door:focus-visible::before { opacity: 1; }
+
+.glyph {
+  position: relative; align-self: center; width: 84px; height: 84px; margin: 12px 0 24px;
+  fill: none; stroke: var(--accent); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round;
+}
+.glyph .fill { fill: var(--accent); stroke: none; }
+
+.en { font-family: var(--display); font-size: .74rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); }
+.door strong { font-size: 1.6rem; line-height: 1.35; }
+.count { margin-top: 2px; font-size: .9rem; color: var(--mist); }
+.door p { margin: 14px 0 22px; font-size: .95rem; line-height: 1.7; color: var(--mist); }
+.enter { margin-top: auto; font-size: .95rem; color: var(--paper); border-bottom: 1px solid var(--accent); padding-bottom: 2px; }
+.enter i { display: inline-block; font-style: normal; transition: transform .25s; }
+.door:hover .enter i, .door:focus-visible .enter i { transform: translateX(5px); }
+
+.foot { padding: 24px 16px 32px; text-align: center; font-size: .9rem; color: var(--mist); border-top: 1px solid var(--line); }
+.foot p { margin: 0; }
+
+@media (max-width: 860px) { .doors { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 540px) {
+  .intro { padding: 48px 0 36px; }
+  .doors { grid-template-columns: 1fr; }
+  .door { border-radius: 8px; flex-direction: row; flex-wrap: wrap; align-items: center; column-gap: 16px; padding: 20px; }
+  .glyph { width: 56px; height: 56px; margin: 0; grid-row: span 2; }
+  .door .en, .door .count { display: none; }
+  .door p { flex-basis: 100%; margin: 12px 0 14px; }
+  .enter { margin-top: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .door, .enter i { transition: none; } .door:hover { transform: none; } }
