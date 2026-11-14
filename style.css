@@ -1,5 +1,5 @@
 /* MoonHong 허브
- * 여섯 카드 사이트로 들어가는 문. 바탕과 글꼴은 MoonHong 시리즈의 밤하늘을 그대로 쓴다.
+ * 일곱 카드 사이트로 들어가는 문. 바탕과 글꼴은 MoonHong 시리즈의 밤하늘을 그대로 쓴다.
  */
 :root {
   color-scheme: dark;
@@ -63,7 +63,7 @@ main { width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 16px 80px
 h1 { margin: 0 0 24px; font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.24; font-weight: 700; text-wrap: balance; max-width: 11em; }
 .lead { margin: 0; max-width: 32em; color: var(--mist); }
 
-/* ── 여섯 문 ──────────────────────── */
+/* ── 일곱 문 ──────────────────────── */
 .doors { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 .doors li { display: flex; }
 
