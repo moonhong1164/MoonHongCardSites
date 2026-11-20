@@ -6,10 +6,7 @@
   const esc = (s) => String(s).replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 
   /* 덱마다 허브의 문 색을 그대로 쓴다. 모르는 덱은 별빛색 */
-  const ACCENT = {
-    oshozen: 'var(--leaf)', belline: 'var(--star)', symbolon: 'var(--violet)', tarot: 'var(--hong)',
-    lenormand: 'var(--rose)', kipper: '#8fc3ea', iching: '#e3b65a', color: '#f08fb4', trump: '#e0566a', rune: 'var(--ice)'
-  };
+  const ACCENT = Object.fromEntries((window.MoonHongDecks || []).map((d) => [d.deckId, d.accent]));
   let filter = 'all';
 
   const fmt = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short', hour: '2-digit', minute: '2-digit' });
