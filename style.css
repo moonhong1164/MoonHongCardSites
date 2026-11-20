@@ -235,6 +235,26 @@ h1 { margin: 0 0 24px; font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.24; f
 .sheet-none { margin: 0; font-size: .92rem; color: var(--mist); }
 .entry.is-target { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 18px 40px -24px var(--accent); }
 
+/* ── 오늘의 카드 (허브 메인) ───────── */
+.today {
+  display: grid; grid-template-columns: 168px minmax(0, 1fr); gap: 28px; align-items: start; margin: 0 0 48px; padding: 26px;
+  border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 8px;
+  background: radial-gradient(circle at 0 0, color-mix(in srgb, var(--accent) 16%, transparent), transparent 60%), rgba(20, 26, 54, .7);
+}
+.today .art { margin: 0; }
+.today .no-art { font-size: 2.4rem; }
+.today .eyebrow { margin-bottom: 10px; }
+.today-deck { margin: 0; font-size: .95rem; color: var(--accent); }
+.today h2 { margin: 2px 0 12px; font-size: clamp(1.6rem, 4vw, 2.1rem); line-height: 1.3; }
+.today-meaning { margin: 0; max-width: 36em; line-height: 1.75; }
+.today .sheet-kw { margin: 14px 0 18px; }
+.today-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.solid { padding: 10px 26px; font: inherit; font-weight: 700; line-height: 1.3; color: var(--ink); background: var(--star); border: 1px solid var(--star); border-radius: 999px; cursor: pointer; }
+.solid:hover { filter: brightness(1.08); }
+.solid:disabled { opacity: .55; cursor: default; filter: none; }
+.today .notice { margin: 12px 0 0; min-height: 1.5em; }
+.today .notice a { color: var(--paper); text-underline-offset: 3px; }
+
 .foot { padding: 24px 16px 32px; text-align: center; font-size: .9rem; color: var(--mist); border-top: 1px solid var(--line); }
 .foot p { margin: 0; }
 
@@ -256,5 +276,7 @@ h1 { margin: 0 0 24px; font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.24; f
   .sheet-head { grid-template-columns: 92px minmax(0, 1fr); gap: 16px; }
   .top nav { gap: 14px; }
   .top nav a { font-size: .9rem; }
+  .today { grid-template-columns: 96px minmax(0, 1fr); gap: 18px; padding: 20px 18px; }
+  .today .no-art { font-size: 1.7rem; }
 }
 @media (prefers-reduced-motion: reduce) { .door, .enter i { transition: none; } .door:hover { transform: none; } }

@@ -6,22 +6,9 @@
   'use strict';
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s).replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
-  const BASE = 'https://moonhong1164.github.io/';
-
-  /* 허브의 문 순서와 색 그대로 */
-  const DECKS = [
-    ['MoonHongOshoZen', 'oshozen', 'var(--leaf)'],
-    ['MoonHongBELLINE', 'belline', 'var(--star)'],
-    ['MoonHongSimbolon', 'symbolon', 'var(--violet)'],
-    ['MoonHongUniTarot', 'tarot', 'var(--hong)'],
-    ['MoonHongLENORMAND', 'lenormand', 'var(--rose)'],
-    ['MoonHongKIPPER', 'kipper', '#8fc3ea'],
-    ['MoonHongICHING', 'iching', '#e3b65a'],
-    ['MoonHongColor', 'color', '#f08fb4'],
-    ['MoonHongTRUMP', 'trump', '#e0566a'],
-    ['MoonHongRUNE', 'rune', 'var(--ice)']
-  ];
-  const ACCENT = Object.fromEntries(DECKS.map((d) => [d[1], d[2]]));
+  /* 사이트 목록·순서·색은 decks.js (오늘의 카드와 함께 쓴다) */
+  const DECKS = window.MoonHongDecks;
+  const ACCENT = Object.fromEntries(DECKS.map((d) => [d.deckId, d.accent]));
 
   /* 리딩 일지: 카드마다 그 카드가 나온 기록을 찾아 둔다.
    * 일지에는 카드 이름이 남는다. 주역만 '48. 수풍정'처럼 번호가 붙어 있어 떼고 맞춘다 */
@@ -134,10 +121,10 @@
   $('sheet').addEventListener('click', (e) => { if (e.target === e.currentTarget) e.currentTarget.close(); });
 
   /* 열 곳을 한꺼번에 불러온다. 실패한 곳은 이름만 알린다 */
-  Promise.all(DECKS.map(([path, id]) =>
-    fetch(`${BASE}${path}/cards.json`, { cache: 'no-cache' })
+  Promise.all(DECKS.map((d) =>
+    fetch(d.json, { cache: 'no-cache' })
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then((j) => ({ ok: true, j }), () => ({ ok: false, id }))
+      .then((j) => ({ ok: true, j }), () => ({ ok: false, id: d.deckId }))
   )).then((res) => {
     const failed = [];
     res.forEach((r) => {
