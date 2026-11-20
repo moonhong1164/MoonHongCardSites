@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>카드 모음 · MoonHong</title>
+<meta name="description" content="MoonHong 열 사이트의 카드·괘·룬·색을 한곳에 모아 이름과 키워드로 찾아보는 페이지.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="sky" aria-hidden="true"></div>
+
+<header class="top">
+  <a class="brand" href="./">Moon<b>Hong</b></a>
+  <nav aria-label="주요 메뉴">
+    <a href="./">열 개의 문</a>
+    <a href="cards.html" aria-current="page">카드 모음</a>
+    <a href="journal.html">리딩 일지</a>
+  </nav>
+</header>
+
+<main>
+  <section class="intro intro-journal">
+    <p class="eyebrow">All the Cards</p>
+    <h1>한자리에 모인 카드들</h1>
+    <p class="lead">열 사이트의 카드와 괘, 룬, 색을 모았습니다. 이름이나 키워드로 찾고, 카드를 누르면 짧은 뜻과 원래 사이트로 가는 길이 열립니다.</p>
+  </section>
+
+  <div class="finder">
+    <label class="search" for="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
+      <input id="search" type="search" autocomplete="off" placeholder="이름이나 키워드로 찾기 (예: 새 출발, 달, 사랑)">
+    </label>
+    <div class="chips" id="deckFilter" role="group" aria-label="덱별로 보기"></div>
+  </div>
+  <p class="notice is-quiet" id="notice" role="status" aria-live="polite">카드를 불러오는 중입니다…</p>
+
+  <ul class="deck-grid" id="grid"></ul>
+  <div class="empty" id="empty" hidden>
+    <p><strong>찾는 카드가 없습니다.</strong></p>
+    <p>다른 낱말로 찾거나 덱을 ‘전체’로 바꿔 보세요.</p>
+  </div>
+</main>
+
+<dialog class="card-sheet" id="sheet" aria-labelledby="sheetTitle">
+  <button type="button" class="sheet-close" id="sheetClose" aria-label="닫기">×</button>
+  <div id="sheetBody"></div>
+</dialog>
+
+<footer class="foot">
+  <p>Moon<b>Hong</b> · 카드는 답을 정해 주지 않고, 물음을 비춰 줍니다.</p>
+</footer>
+
+<script src="cards-page.js"></script>
+</body>
+</html>
