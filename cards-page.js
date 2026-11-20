@@ -18,8 +18,12 @@
   function indexJournal() {
     seen = new Map();
     if (!J) return;
+    /* 카드 비교 기록(deckId 'compare')은 카드마다 자리(position)에 원래 덱 이름이 적혀 있다 */
+    const byName = Object.fromEntries(DECKS.map((d) => [d.name, d.deckId]));
     J.all().forEach((e) => e.cards.forEach((c) => {
-      const k = `${e.deckId}|${plain(c.name)}`;
+      const deckId = e.deckId === 'compare' ? byName[c.position] : e.deckId;
+      if (!deckId) return;
+      const k = `${deckId}|${plain(c.name)}`;
       if (!seen.has(k)) seen.set(k, []);
       seen.get(k).push({ e, c });
     }));
@@ -75,7 +79,7 @@
     if (!list.length) return '<section class="sheet-log"><h3>리딩 일지</h3><p class="sheet-none">아직 이 카드가 나온 리딩을 저장하지 않았습니다.</p></section>';
     const items = list.slice(0, 5).map(({ e, c: at }) =>
       `<li><a href="${JOURNAL}#e-${esc(e.id)}"><time datetime="${e.createdAt}">${when.format(new Date(e.createdAt))}</time>` +
-      `<span class="sl-where">${esc(e.spread || e.deck)}${at.position ? ` · ${esc(at.position)}` : ''}` +
+      `<span class="sl-where">${e.deckId === 'compare' ? `비교 리딩 · ${e.cards.length}개 덱 함께` : `${esc(e.spread || e.deck)}${at.position ? ` · ${esc(at.position)}` : ''}`}` +
       `${at.orientation ? ` · ${J.ORIENT_KO[at.orientation]}` : ''}</span>` +
       `<span class="sl-q">${e.question ? esc(e.question) : '질문 없이 뽑은 리딩'}</span></a></li>`).join('');
     const more = list.length > 5 ? `<a class="sl-more" href="${JOURNAL}">나머지 ${list.length - 5}건은 리딩 일지에서 →</a>` : '';

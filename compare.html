@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>카드 비교 · MoonHong</title>
+<meta name="description" content="질문 하나를 두고 덱 두세 개에서 한 장씩 뽑아 나란히 견주어 보는 비교 리딩.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=4">
+</head>
+<body>
+<div class="sky" aria-hidden="true"></div>
+
+<header class="top">
+  <a class="brand" href="./">Moon<b>Hong</b></a>
+  <nav aria-label="주요 메뉴">
+    <a href="./">열 개의 문</a>
+    <a href="cards.html">카드 모음</a>
+    <a href="compare.html" aria-current="page">카드 비교</a>
+    <a href="journal.html">리딩 일지</a>
+  </nav>
+</header>
+
+<main>
+  <section class="intro intro-journal">
+    <p class="eyebrow">Compare Reading</p>
+    <h1>한 질문, 여러 덱</h1>
+    <p class="lead">같은 질문을 덱 두세 개에 함께 던져 봅니다. 덱마다 한 장씩 뽑아 나란히 놓으면, 겹치는 말과 엇갈리는 말이 함께 보입니다.</p>
+  </section>
+
+  <form class="compare-setup" id="setup">
+    <div class="field">
+      <label for="question">마음속 질문</label>
+      <input id="question" type="text" maxlength="200" autocomplete="off" placeholder="예) 이번 이직, 어떻게 흘러갈까요?">
+    </div>
+
+    <fieldset class="field">
+      <legend>덱을 두 개에서 네 개까지 고르세요 <span id="pickCount">(0개 고름)</span></legend>
+      <div class="deck-checks" id="deckChecks"></div>
+    </fieldset>
+
+    <div class="compare-actions">
+      <button type="submit" class="solid" id="drawBtn" disabled>한 장씩 뽑기</button>
+      <p class="notice is-quiet" id="setupMsg" role="status" aria-live="polite"></p>
+    </div>
+  </form>
+
+  <section class="compare-result" id="result" aria-labelledby="resultTitle" hidden>
+    <div class="result-head">
+      <h2 id="resultTitle">비교 리딩</h2>
+      <p class="asked" id="asked"></p>
+    </div>
+    <ol class="compare-row" id="row"></ol>
+    <div class="compare-actions">
+      <button type="button" class="solid" id="saveBtn">일지에 저장</button>
+      <button type="button" class="ghost" id="againBtn">같은 덱으로 다시 뽑기</button>
+    </div>
+    <p class="notice is-quiet" id="saveMsg" role="status" aria-live="polite"></p>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>Moon<b>Hong</b> · 카드는 답을 정해 주지 않고, 물음을 비춰 줍니다.</p>
+</footer>
+
+<script src="decks.js?v=4"></script>
+<script src="journal.js?v=4"></script>
+<script src="compare.js?v=4"></script>
+</body>
+</html>

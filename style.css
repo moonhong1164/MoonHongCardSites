@@ -255,6 +255,49 @@ h1 { margin: 0 0 24px; font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.24; f
 .today .notice { margin: 12px 0 0; min-height: 1.5em; }
 .today .notice a { color: var(--paper); text-underline-offset: 3px; }
 
+/* ── 카드 비교 ───────────────────── */
+.compare-setup { display: flex; flex-direction: column; gap: 28px; }
+.field { margin: 0; padding: 0; border: 0; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.field label, .field legend { padding: 0; font-size: .95rem; color: var(--mist); }
+.field legend { margin-bottom: 12px; }
+.field legend span { opacity: .7; }
+.field input[type=text] { width: 100%; max-width: 34em; padding: 12px 2px; font: inherit; color: var(--paper); background: transparent; border: 0; border-bottom: 1px solid var(--line); }
+.field input[type=text]::placeholder { color: var(--mist); opacity: .55; }
+.field input[type=text]:focus { outline: 0; border-bottom-color: var(--star); }
+.deck-checks { display: flex; flex-wrap: wrap; gap: 10px; }
+.deck-check { position: relative; cursor: pointer; }
+.deck-check input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.deck-check span { display: inline-block; padding: 8px 18px; font-size: .95rem; border: 1px solid var(--line); border-radius: 999px; color: var(--mist); transition: border-color .2s, color .2s, background .2s; }
+.deck-check span::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 8px; vertical-align: middle; border-radius: 50%; background: var(--accent); opacity: .5; }
+.deck-check:hover span { color: var(--paper); }
+.deck-check input:checked + span { color: var(--paper); border-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, transparent); }
+.deck-check input:checked + span::before { opacity: 1; }
+.deck-check input:focus-visible + span { outline: 2px solid var(--star); outline-offset: 3px; }
+.deck-check input:disabled + span { opacity: .4; cursor: default; }
+.compare-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
+.compare-actions .notice { margin: 0; min-height: 0; }
+.compare-result { margin-top: 64px; display: flex; flex-direction: column; gap: 24px; }
+.result-head h2 { margin: 0 0 6px; font-size: clamp(1.5rem, 3.6vw, 2rem); }
+.asked { margin: 0; font-size: 1.1rem; color: var(--star); }
+.compare-row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); gap: 18px; }
+.compare-card {
+  display: flex; flex-direction: column; padding: 20px 18px; border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 8px;
+  background: linear-gradient(180deg, rgba(31, 39, 74, .9), rgba(20, 26, 54, .7)); animation: rise .6s var(--d, 0ms) both;
+}
+.compare-card .art { max-width: 160px; margin: 0 auto 14px; }
+.compare-card .no-art { font-size: 2rem; }
+.compare-card .dc-deck { margin: 0; font-size: .85rem; }
+.compare-card h3 { margin: 2px 0 10px; font-size: 1.3rem; line-height: 1.35; }
+.cc-meaning { margin: 0; font-size: .95rem; line-height: 1.7; }
+.compare-card .sheet-kw { margin: 12px 0 14px; }
+.cc-link { margin-top: auto; font-size: .88rem; color: var(--mist); text-underline-offset: 3px; }
+.cc-link:hover { color: var(--paper); }
+#saveMsg a { color: var(--paper); text-underline-offset: 3px; }
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@media (max-width: 860px) { .compare-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 540px) { .compare-row { grid-template-columns: 1fr; } .compare-card .art { max-width: 120px; } }
+@media (prefers-reduced-motion: reduce) { .compare-card { animation: none; } }
+
 .foot { padding: 24px 16px 32px; text-align: center; font-size: .9rem; color: var(--mist); border-top: 1px solid var(--line); }
 .foot p { margin: 0; }
 
