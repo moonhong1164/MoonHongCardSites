@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>리딩 일지 · MoonHong</title>
+<meta name="description" content="MoonHong 사이트에서 저장한 리딩을 한곳에 모아 보는 일지.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="sky" aria-hidden="true"></div>
+
+<header class="top">
+  <a class="brand" href="./">Moon<b>Hong</b></a>
+  <nav aria-label="주요 메뉴">
+    <a href="./">열 개의 문</a>
+    <a href="journal.html" aria-current="page">리딩 일지</a>
+  </nav>
+</header>
+
+<main>
+  <section class="intro intro-journal">
+    <p class="eyebrow">Reading Journal</p>
+    <h1>지나간 물음들</h1>
+    <p class="lead">각 사이트에서 ‘이 리딩 저장’을 누른 기록이 여기에 모입니다. 기록은 이 기기의 이 브라우저에만 남으니, 가끔 백업 파일로 내보내 두세요.</p>
+  </section>
+
+  <div class="journal-bar">
+    <div class="chips" id="deckFilter" role="group" aria-label="덱별로 보기"></div>
+    <div class="backup">
+      <button type="button" class="ghost" id="exportBtn">백업 내보내기</button>
+      <label class="ghost" for="importFile">백업 가져오기</label>
+      <input type="file" id="importFile" accept="application/json,.json" hidden>
+    </div>
+  </div>
+  <p class="notice" id="notice" role="status" aria-live="polite"></p>
+
+  <ol class="entries" id="entries"></ol>
+
+  <div class="empty" id="empty" hidden>
+    <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M44 12a22 22 0 1 0 8 30a17 17 0 1 1-8-30z"/></svg>
+    <p><strong>아직 저장한 리딩이 없습니다.</strong></p>
+    <p>카드를 모두 펼친 뒤 결과 아래의 ‘이 리딩 저장’을 누르면 여기에 쌓입니다.</p>
+    <a class="ghost" href="./">문으로 돌아가기</a>
+  </div>
+</main>
+
+<footer class="foot">
+  <p>Moon<b>Hong</b> · 카드는 답을 정해 주지 않고, 물음을 비춰 줍니다.</p>
+</footer>
+
+<script src="journal.js"></script>
+<script src="journal-page.js"></script>
+</body>
+</html>

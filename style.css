@@ -22,6 +22,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 body {
   margin: 0; min-height: 100vh; display: flex; flex-direction: column;
@@ -49,11 +50,15 @@ a { color: inherit; }
 :focus-visible { outline: 2px solid var(--star); outline-offset: 3px; border-radius: 4px; }
 
 .top {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap;
   padding: 12px max(16px, calc((100vw - var(--wrap)) / 2));
   border-bottom: 1px solid var(--line);
   background: rgba(12, 16, 36, .84);
 }
 .brand { font-family: var(--display); font-weight: 700; font-size: 1.2rem; letter-spacing: .06em; text-decoration: none; }
+.top nav { display: flex; gap: 18px; }
+.top nav a { text-decoration: none; color: var(--mist); font-size: .95rem; }
+.top nav a:hover, .top nav a[aria-current] { color: var(--paper); }
 .brand b, .foot b { color: var(--hong); font-weight: 700; }
 
 main { width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 16px 80px; flex: 1; }
@@ -101,6 +106,71 @@ h1 { margin: 0 0 24px; font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.24; f
 .enter i { display: inline-block; font-style: normal; transition: transform .25s; }
 .door:hover .enter i, .door:focus-visible .enter i { transform: translateX(5px); }
 
+/* 문 아래, 일지로 가는 줄 */
+.journal-link {
+  display: flex; align-items: center; gap: 18px; margin-top: 40px; padding: 20px 24px; text-decoration: none;
+  border: 1px solid var(--line); border-left: 3px solid var(--star); border-radius: 8px;
+  background: rgba(20, 26, 54, .7); transition: border-color .25s;
+}
+.journal-link:hover, .journal-link:focus-visible { border-color: var(--star); }
+.journal-link svg { flex: none; width: 44px; height: 44px; fill: none; stroke: var(--star); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.journal-link span { display: flex; flex-direction: column; }
+.journal-link strong { font-size: 1.15rem; }
+.journal-link small { color: var(--mist); font-size: .92rem; }
+.journal-link i { margin-left: auto; font-style: normal; color: var(--star); transition: transform .25s; }
+.journal-link:hover i { transform: translateX(5px); }
+
+/* ── 리딩 일지 ───────────────────── */
+.intro-journal { padding-bottom: 36px; }
+.ghost, .chip, .del { font: inherit; cursor: pointer; }
+.ghost {
+  display: inline-block; padding: 9px 22px; border-radius: 999px; line-height: 1.3; text-decoration: none;
+  font-size: .95rem; color: var(--paper); background: transparent; border: 1px solid var(--line);
+}
+.ghost:hover { border-color: var(--paper); }
+.ghost:disabled { opacity: .4; cursor: default; border-color: var(--line); }
+
+.journal-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { padding: 6px 14px; border-radius: 999px; font-size: .9rem; color: var(--mist); background: transparent; border: 1px solid var(--line); }
+.chip span { opacity: .6; margin-left: 2px; }
+.chip:hover { color: var(--paper); }
+.chip.is-on { color: var(--ink); background: var(--star); border-color: var(--star); font-weight: 700; }
+.chip.is-on span { opacity: .75; }
+.backup { display: flex; gap: 10px; margin-left: auto; }
+.notice { min-height: 1.75em; margin: 14px 0 10px; font-size: .92rem; color: var(--leaf); }
+.notice.is-bad { color: var(--hong); }
+
+.entries { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+.entry {
+  padding: 22px 24px 18px; border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 8px;
+  background: linear-gradient(180deg, rgba(31, 39, 74, .9), rgba(20, 26, 54, .7));
+}
+.entry-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.entry-head .deck { color: var(--accent); font-weight: 700; }
+.entry-head .spread { font-size: .92rem; color: var(--paper); }
+.entry-head .spread::before { content: "·"; margin-right: 12px; color: var(--mist); }
+.entry-head time { margin-left: auto; font-size: .85rem; color: var(--mist); }
+.entry .q { margin: 10px 0 14px; font-size: 1.15rem; line-height: 1.55; }
+.entry .q.is-none { color: var(--mist); font-size: 1rem; }
+.drawn { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.drawn li { display: inline-flex; align-items: baseline; gap: 6px; padding: 5px 12px; border-radius: 6px; background: rgba(12, 16, 36, .6); border: 1px solid var(--line); font-size: .92rem; }
+.c-pos { color: var(--mist); font-size: .82rem; }
+.c-ori { font-size: .78rem; color: var(--leaf); }
+.c-ori.is-reversed { color: var(--hong); }
+.memo { margin: 14px 0 0; padding: 12px 16px; border-left: 2px solid var(--line); color: var(--mist); font-size: .95rem; white-space: pre-wrap; }
+.entry-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; font-size: .88rem; }
+.entry-foot a { color: var(--mist); text-underline-offset: 3px; }
+.entry-foot a:hover { color: var(--paper); }
+.del { margin-left: auto; padding: 4px 12px; border-radius: 999px; color: var(--mist); background: transparent; border: 1px solid transparent; }
+.del:hover { color: var(--hong); border-color: var(--hong); }
+
+.empty { padding: 48px 16px; text-align: center; color: var(--mist); border: 1px dashed var(--line); border-radius: 8px; }
+.empty svg { width: 52px; height: 52px; fill: none; stroke: var(--star); stroke-width: 2.4; }
+.empty p { margin: 6px 0; }
+.empty strong { color: var(--paper); }
+.empty .ghost { margin-top: 18px; }
+
 .foot { padding: 24px 16px 32px; text-align: center; font-size: .9rem; color: var(--mist); border-top: 1px solid var(--line); }
 .foot p { margin: 0; }
 
@@ -113,5 +183,9 @@ h1 { margin: 0 0 24px; font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.24; f
   .door .en, .door .count { display: none; }
   .door p { flex-basis: 100%; margin: 12px 0 14px; }
   .enter { margin-top: 0; }
+  .journal-link { padding: 16px 18px; gap: 14px; }
+  .backup { margin-left: 0; }
+  .entry { padding: 18px 16px 14px; }
+  .entry-head time { margin-left: 0; flex-basis: 100%; }
 }
 @media (prefers-reduced-motion: reduce) { .door, .enter i { transition: none; } .door:hover { transform: none; } }
