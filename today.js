@@ -1,5 +1,8 @@
 /* 오늘의 카드: 열 사이트 가운데 한 곳의 cards.json 에서 한 장.
- * 날짜(이 기기의 날짜)를 씨앗으로 써서, 같은 날에는 새로고침해도 같은 카드가 나온다.
+ * 사람마다 다른 카드: 처음 온 브라우저에 무작위 번호(moonhong-today-id)를 하나 저장해 두고,
+ * 그 번호와 날짜(이 기기의 날짜)를 섞어 씨앗으로 쓴다. 그래서 같은 사람은 하루 종일 같은 카드,
+ * 다른 사람(다른 브라우저)은 다른 카드를 본다. 번호를 저장할 수 없는 브라우저(사생활 보호 창 등)는
+ * 날짜만 쓰므로, 그런 사람들끼리는 같은 카드를 본다.
  * 덱을 먼저 고르고 그 덱에서 카드를 고르므로, 장수가 적은 덱(룬 25장)도 열흘에 한 번꼴로 나온다.
  * 필요한 것: decks.js (MoonHongDecks), journal.js (MoonHongJournal, 없으면 저장 버튼만 숨김)
  */
@@ -32,7 +35,24 @@
       return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
     };
   }
-  const rand = rng(seedOf(`moonhong-today-${today}`));
+  /* 이 브라우저만의 번호. 한 번 만들면 계속 쓴다 */
+  function personalId() {
+    const KEY = 'moonhong-today-id';
+    try {
+      let id = localStorage.getItem(KEY);
+      if (!/^[0-9a-f]{16}$/.test(id || '')) {
+        const r = new Uint32Array(2);
+        crypto.getRandomValues(r);
+        id = Array.from(r, (x) => x.toString(16).padStart(8, '0')).join('');
+        localStorage.setItem(KEY, id);
+        if (localStorage.getItem(KEY) !== id) return '';
+      }
+      return id;
+    } catch (err) {
+      return '';
+    }
+  }
+  const rand = rng(seedOf(`moonhong-today-${personalId()}-${today}`));
   const deck = DECKS[Math.floor(rand() * DECKS.length)];
   const pickCard = rand();
 
@@ -49,7 +69,7 @@
     box.innerHTML =
       `<div class="art${c.image ? '' : ' is-blank'}">${art}</div>` +
       '<div class="today-body">' +
-      `<p class="eyebrow">Card of the Day · ${esc(label)}</p>` +
+      `<p class="eyebrow">Your Card of the Day · ${esc(label)}</p>` +
       `<p class="today-deck">${esc(j.deck)}</p>` +
       `<h2 id="todayTitle">${esc(c.name)}</h2>` +
       (c.meaning ? `<p class="today-meaning">${esc(c.meaning)}</p>` : '') +
