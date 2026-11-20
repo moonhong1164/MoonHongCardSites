@@ -23,7 +23,7 @@
     const cards = e.cards.map((c) =>
       `<li>${c.position ? `<span class="c-pos">${esc(c.position)}</span>` : ''}<b>${esc(c.name)}</b>` +
       `${c.orientation ? `<span class="c-ori is-${c.orientation}">${J.ORIENT_KO[c.orientation]}</span>` : ''}</li>`).join('');
-    return `<li class="entry" style="--accent:${ACCENT[e.deckId] || 'var(--star)'}" data-id="${esc(e.id)}">` +
+    return `<li class="entry" id="e-${esc(e.id)}" style="--accent:${ACCENT[e.deckId] || 'var(--star)'}" data-id="${esc(e.id)}">` +
       `<div class="entry-head"><span class="deck">${esc(e.deck)}</span>${e.spread ? `<span class="spread">${esc(e.spread)}</span>` : ''}` +
       `<time datetime="${e.createdAt}">${fmt.format(new Date(e.createdAt))}</time></div>` +
       `<p class="q${e.question ? '' : ' is-none'}">${e.question ? esc(e.question) : '질문 없이 뽑은 리딩'}</p>` +
@@ -90,4 +90,15 @@
   window.addEventListener('storage', (e) => { if (e.key === J.KEY) render(); });
 
   render();
+
+  /* 카드 모음에서 journal.html#e-<id> 로 들어오면 그 기록을 보여 준다 */
+  function jumpToHash() {
+    const el = location.hash.startsWith('#e-') ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+    if (!el) return;
+    document.querySelectorAll('.entry.is-target').forEach((x) => x.classList.remove('is-target'));
+    el.classList.add('is-target');
+    el.scrollIntoView({ block: 'center' });
+  }
+  window.addEventListener('hashchange', jumpToHash);
+  jumpToHash();
 })();

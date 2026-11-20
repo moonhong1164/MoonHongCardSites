@@ -23,6 +23,24 @@
   ];
   const ACCENT = Object.fromEntries(DECKS.map((d) => [d[1], d[2]]));
 
+  /* 리딩 일지: 카드마다 그 카드가 나온 기록을 찾아 둔다.
+   * 일지에는 카드 이름이 남는다. 주역만 '48. 수풍정'처럼 번호가 붙어 있어 떼고 맞춘다 */
+  const J = window.MoonHongJournal;
+  const plain = (name) => String(name).replace(/^\d+\.\s*/, '');
+  let seen = new Map();   // 'deckId|이름' → [{ e: 기록, c: 그 기록 속 카드 }]
+  function indexJournal() {
+    seen = new Map();
+    if (!J) return;
+    J.all().forEach((e) => e.cards.forEach((c) => {
+      const k = `${e.deckId}|${plain(c.name)}`;
+      if (!seen.has(k)) seen.set(k, []);
+      seen.get(k).push({ e, c });
+    }));
+  }
+  const readingsOf = (c) => seen.get(`${c.deckId}|${c.name}`) || [];
+  const when = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+  const JOURNAL = 'journal.html';
+
   let decks = [];   // 불러온 덱 (허브 순서)
   let all = [];     // 모든 카드 + 덱 정보
   let filter = 'all';
@@ -35,7 +53,8 @@
     return `<li><button type="button" class="deck-card" data-i="${i}" style="--accent:${c.accent}">` +
       `<span class="art${c.image ? '' : ' is-blank'}">${art}</span>` +
       `<span class="dc-deck">${esc(c.deck)}</span><strong>${esc(c.name)}</strong>` +
-      `<span class="dc-kw">${esc(c.keywords.slice(0, 3).join(' · '))}</span></button></li>`;
+      `<span class="dc-kw">${esc(c.keywords.slice(0, 3).join(' · '))}</span>` +
+      (readingsOf(c).length ? `<span class="dc-count">일지 ${readingsOf(c).length}</span>` : '') + '</button></li>';
   }
 
   function matches(c) {
@@ -62,6 +81,20 @@
       `<button type="button" class="chip" data-deck="${esc(d.deckId)}" aria-pressed="false">${esc(d.deck)} <span>${d.count}</span></button>`).join('');
   }
 
+  /* 상세 시트 아래쪽: 이 카드가 나온 리딩. 최신 다섯 건까지, 나머지는 일지로 */
+  function readingsHTML(c) {
+    if (!J) return '';
+    const list = readingsOf(c);
+    if (!list.length) return '<section class="sheet-log"><h3>리딩 일지</h3><p class="sheet-none">아직 이 카드가 나온 리딩을 저장하지 않았습니다.</p></section>';
+    const items = list.slice(0, 5).map(({ e, c: at }) =>
+      `<li><a href="${JOURNAL}#e-${esc(e.id)}"><time datetime="${e.createdAt}">${when.format(new Date(e.createdAt))}</time>` +
+      `<span class="sl-where">${esc(e.spread || e.deck)}${at.position ? ` · ${esc(at.position)}` : ''}` +
+      `${at.orientation ? ` · ${J.ORIENT_KO[at.orientation]}` : ''}</span>` +
+      `<span class="sl-q">${e.question ? esc(e.question) : '질문 없이 뽑은 리딩'}</span></a></li>`).join('');
+    const more = list.length > 5 ? `<a class="sl-more" href="${JOURNAL}">나머지 ${list.length - 5}건은 리딩 일지에서 →</a>` : '';
+    return `<section class="sheet-log"><h3>리딩 일지 <span>${list.length}번 나왔습니다</span></h3><ol>${items}</ol>${more}</section>`;
+  }
+
   function openSheet(c) {
     const art = c.image ? `<img src="${esc(c.image)}" alt="${esc(c.name)} 카드 그림">` : `<span class="no-art">${esc(c.name.slice(0, 2))}</span>`;
     const go = c.link || c.site;
@@ -70,6 +103,7 @@
       `<div><p class="dc-deck">${esc(c.deck)}</p><h2 id="sheetTitle">${esc(c.name)}</h2></div></div>` +
       (c.meaning ? `<p class="sheet-meaning">${esc(c.meaning)}</p>` : '') +
       `<ul class="sheet-kw">${c.keywords.map((k) => `<li>${esc(k)}</li>`).join('')}</ul>` +
+      readingsHTML(c) +
       (go ? `<a class="ghost" href="${esc(go)}">${esc(c.deck)} 사이트에서 보기 →</a>` : '');
     const sheet = $('sheet');
     if (!sheet.open) sheet.showModal();
@@ -91,6 +125,12 @@
     if (btn) openSheet(all[Number(btn.dataset.i)]);
   });
   $('sheetClose').addEventListener('click', () => $('sheet').close());
+  /* 다른 탭(사이트)에서 리딩을 저장하면 표시를 새로 맞춘다 */
+  window.addEventListener('storage', (e) => {
+    if (!J || e.key !== J.KEY) return;
+    indexJournal();
+    render();
+  });
   $('sheet').addEventListener('click', (e) => { if (e.target === e.currentTarget) e.currentTarget.close(); });
 
   /* 열 곳을 한꺼번에 불러온다. 실패한 곳은 이름만 알린다 */
@@ -115,6 +155,7 @@
         });
       });
     });
+    indexJournal();
     renderChips();
     render();
     if (failed.length) {

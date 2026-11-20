@@ -220,6 +220,21 @@ h1 { margin: 0 0 24px; font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.24; f
 .sheet-kw { list-style: none; margin: 18px 0 24px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .sheet-kw li { padding: 3px 12px; font-size: .88rem; color: var(--mist); border: 1px solid var(--line); border-radius: 999px; }
 
+/* 카드 모음 × 리딩 일지 */
+.dc-count { margin-top: 4px; padding: 1px 9px; font-size: .74rem; color: var(--ink); background: var(--accent); border-radius: 999px; }
+.sheet-log { margin: 0 0 24px; padding-top: 18px; border-top: 1px solid var(--line); }
+.sheet-log h3 { margin: 0 0 10px; font-size: 1.05rem; }
+.sheet-log h3 span { margin-left: 6px; font-size: .85rem; font-weight: 400; color: var(--mist); }
+.sheet-log ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.sheet-log li a { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 12px; padding: 10px 14px; text-decoration: none; border: 1px solid var(--line); border-radius: 6px; background: rgba(12, 16, 36, .5); }
+.sheet-log li a:hover { border-color: var(--star); }
+.sheet-log time { font-size: .82rem; color: var(--mist); }
+.sl-where { font-size: .88rem; color: var(--star); }
+.sl-q { grid-column: 1 / -1; font-size: .95rem; }
+.sl-more { display: inline-block; margin-top: 10px; font-size: .9rem; color: var(--mist); }
+.sheet-none { margin: 0; font-size: .92rem; color: var(--mist); }
+.entry.is-target { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 18px 40px -24px var(--accent); }
+
 .foot { padding: 24px 16px 32px; text-align: center; font-size: .9rem; color: var(--mist); border-top: 1px solid var(--line); }
 .foot p { margin: 0; }
 
