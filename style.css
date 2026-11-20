@@ -66,6 +66,8 @@ h1 { margin: 0 0 24px; font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.24; f
 /* ── 일곱 문 ──────────────────────── */
 .doors { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 .doors li { display: flex; }
+/* 세 칸 줄에서 마지막 문이 혼자 남으면 가운데에 둔다 */
+@media (min-width: 861px) { .doors li:last-child:nth-child(3n + 1) { grid-column: 2; } }
 
 .door {
   position: relative; flex: 1; display: flex; flex-direction: column; align-items: flex-start;
